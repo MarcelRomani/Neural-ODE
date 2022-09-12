@@ -1,0 +1,12 @@
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
+DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
+Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
+PreallocationTools = "d236fae5-4411-538c-8e31-a6e3d9e00b46"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+Sundials = "c3572dad-4567-51f8-b174-8c6c989267f4"
+Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
+
+[extras]
+CPUSummary = "2a0fbf3d-bb9c-48f3-b0a9-814d99fd7ab9"
