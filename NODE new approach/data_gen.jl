@@ -75,5 +75,5 @@ end
 X, Y = generate_data()
 
 
-save("./L-V New approach/data.jld","X", X, "Y", Y)
+save("./NODE New approach/data.jld","X", X, "Y", Y)
 println("Done generating data!")
