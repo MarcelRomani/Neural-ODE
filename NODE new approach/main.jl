@@ -12,8 +12,8 @@ using Random
 ### Data loading
 ### ============================================================================
 
-X = load("./L-V New approach/data.jld", "X")
-Y = load("./L-V New approach/data.jld", "Y")
+X = load("./NODE New approach/data.jld", "X")
+Y = load("./NODE New approach/data.jld", "Y")
 #dim = size(Y[1], 1)
 dim = 5
 
