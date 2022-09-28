@@ -27,9 +27,31 @@ function genModel(model_name, dim)
         return LVModel
     elseif model_name == "S-system"
         return SSysModel
-    
     else 
         println("Model not supported.")
         exit()
+
     end
+end
+
+
+function paramsInit(model_name, dim)
+    if model_name == "Riccati"
+        θ = (rand(Float32, (dim+1)*(dim+1)*dim) .- 0.5e0) * 1.0e-1
+        z0 = (rand(Float32, dim)) * 1.0e-1
+        return θ, z0
+    elseif model_name == "Lotka-Volterra"
+        θ = (rand(Float32, dim*(dim+1)) .- 0.5e0) * 1.0e-1
+        z0 = (rand(Float32, dim)) * 1.0e-1
+        return θ, z0
+    elseif model_name == "S-system"
+        θ = (rand(Float32, 2*dim*(dim+1)) .- 0.5e0) * 1.0e-1
+        z0 = 1 .+ (rand(Float32, dim)) * 1.0e-1
+        return θ, z0
+    else 
+        println("Model not supported.")
+        exit()
+
+    end
+
 end

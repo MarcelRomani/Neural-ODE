@@ -16,17 +16,19 @@ using Random
 X = load("./NODE New approach/data.jld", "X")
 Y = load("./NODE New approach/data.jld", "Y")
 
+
+
 ### ============================================================================
 ### Define Model
 ### ============================================================================
 
 # Define size of the model. This parameter is similar to the width of a NN.
-dim = 4
+dim = 5
+# Generate model: Riccati, Lotka-Volterra or S-system
+modelName = "Riccati"
 
-# Generate model 
-model = genModel("Riccati", dim)
 
-
+model = genModel(modelName, dim)
 
 
 ### ============================================================================
@@ -37,7 +39,7 @@ model = genModel("Riccati", dim)
 epochs = 5000
 data = Iterators.repeated((), epochs)
 
-reltol = 0.1
+reltol = 0.01
 tol = reltol * max(Y...)
 
 # Optimizer
@@ -48,18 +50,8 @@ opt = ADAM(0.01)
 ### Neural ODE initialization
 ### ============================================================================
     
-# Initialization of L-V parameters and starting populations at time 0
-#θ = (rand(Float32, dim*(dim+1)) .- 0.5e0) * 1.0e-1
-#z0 = (rand(Float32, dim)) * 1.0e-1
-
-# Initialization of Ricatti parameters and starting populations at time 0
-θ = (rand(Float32, (dim+1)*(dim+1)*dim) .- 0.5e0) * 1.0e-1
-z0 = (rand(Float32, dim)) * 1.0e-1
-
-# Initialization of S-system parameters and starting populations at time 0
-#θ = (rand(Float32, 2*dim*(dim+1)) .- 0.5e0) * 1.0e-1
-#z0 = 1 .+ (rand(Float32, dim)) * 1.0e-1
-
+# Initialization of model parameters and starting populations at time 0
+θ, z0 = paramsInit(modelName, dim)
     
 # Define Neural ODE layer
 tspan = [X[1], X[end]]
@@ -67,6 +59,7 @@ node = NeuralODE(model, z0, θ, tspan)
 
 # Parameters to be optimized
 params = Flux.params(node)
+
 
 ### ============================================================================
 ### Training 
