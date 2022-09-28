@@ -3,6 +3,7 @@
 ### ============================================================================
 
 include("../NeuralODE2.jl")
+include("model_gen.jl")
 using Plots
 using JLD
 using PreallocationTools
@@ -14,33 +15,18 @@ using Random
 
 X = load("./NODE New approach/data.jld", "X")
 Y = load("./NODE New approach/data.jld", "Y")
-#dim = size(Y[1], 1)
-dim = 5
 
 ### ============================================================================
 ### Define Model
 ### ============================================================================
 
-# Lotka-Volterra equations
-#= function model(z, θ, t)
-    return z .* (reshape(θ,dim,dim+1)*vcat(z,1e0))
-end =#
+# Define size of the model. This parameter is similar to the width of a NN.
+dim = 4
 
-# Riccati equations
-function model(z, θ, t)
-    z_aug = vcat(z,1e0)
-    return dropdims(sum((z_aug*z_aug') .* reshape(θ, dim+1, dim+1, dim), dims=(1,2)), dims=(1,2))
-end
+# Generate model 
+model = genModel("Riccati", dim)
 
-# S-system equations
-#= function model(z, θ, t)
-    a = θ[1:dim]
-    b = θ[dim+1:2*dim]
-    g = reshape(θ[(2*dim+1):(2*dim+dim*dim)], dim, dim)
-    h = reshape(θ[dim*(2+dim)+1 : 2dim*(1+dim)], dim, dim)
-    dz = a .* prod(z'.^g, dims=2) - b .* prod(z'.^h, dims=2)
-    return dz
-end =#
+
 
 
 ### ============================================================================
@@ -51,7 +37,7 @@ end =#
 epochs = 5000
 data = Iterators.repeated((), epochs)
 
-reltol = 0.001
+reltol = 0.1
 tol = reltol * max(Y...)
 
 # Optimizer
@@ -122,7 +108,7 @@ plot!(X,Y)#, labels="sin(3x)")
 
 #savefig("output5dims.png")
 
-print(length(losses))
+#print(length(losses))
 
 
 
